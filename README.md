@@ -46,7 +46,7 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/study-universe.git
+git clone https://github.com/Blodreina912/study-universe.git
 cd study-universe
 
 # Install dependencies
@@ -62,19 +62,6 @@ npm run dev -- --host
 2. Enable **Google Authentication** under Authentication → Sign-in methods
 3. Enable **Realtime Database** (start in test mode)
 4. Copy your Firebase config into `src/firebase.js`
-
-```js
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com"
-};
-```
-
 5. Add your domain to Firebase Auth → Settings → Authorized domains
 
 ---
