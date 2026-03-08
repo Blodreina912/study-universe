@@ -3,6 +3,7 @@ import { auth, signInWithGoogle, logOut, db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, set, onValue, remove, push } from "firebase/database";
 import { PLANET_SOUNDS, SATELLITE_SOUNDS, stopSound } from "./sounds";
+import Flashcards from "./Flashcards";
 
 const SUBJECTS = [
   { id: 1, name: "Mathematics", icon: "∑", color: "#4FC3F7", glow: "#0288D1", x: 22, y: 30, size: 90, moons: 2, ring: true },
@@ -506,6 +507,7 @@ export default function App() {
   const [showStats, setShowStats] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [showFlashcards, setShowFlashcards] = useState(false);
   const [selectedSatellite, setSelectedSatellite] = useState(null);
   const [user, setUser] = useState(null);
   const [selectedPlanet, setSelectedPlanet] = useState(null);
@@ -727,6 +729,7 @@ export default function App() {
             {isMobile ? (
               <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
                 <button onClick={() => setShowNotes(true)} style={{ flex: 1, padding: "10px", borderRadius: 12, fontSize: 11, fontWeight: "bold", letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", background: "rgba(255,255,255,0.05)", border: `1px solid ${(selectedSatellite || selectedPlanet).color}33`, color: "rgba(255,255,255,0.6)" }}>✏️ Notes</button>
+                <button onClick={() => setShowFlashcards(true)} style={{ flex: 1, padding: "10px", borderRadius: 12, fontSize: 11, fontWeight: "bold", letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", background: "rgba(255,255,255,0.05)", border: `1px solid ${(selectedSatellite || selectedPlanet).color}33`, color: "rgba(255,255,255,0.6)" }}>🃏 Cards</button>
                 <button onClick={() => { setShowPomodoro(true); addXp(50); }} style={{ flex: 1, padding: "10px", borderRadius: 12, fontSize: 11, fontWeight: "bold", letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", background: `linear-gradient(135deg, ${(selectedSatellite || selectedPlanet).color}33, ${selectedPlanet.glow}22)`, border: `1px solid ${(selectedSatellite || selectedPlanet).color}55`, color: (selectedSatellite || selectedPlanet).color }}>⚡ Start</button>
               </div>
             ) : (
@@ -740,6 +743,7 @@ export default function App() {
                   ))}
                 </div>
                 <button onClick={() => setShowNotes(true)} style={{ width: "100%", padding: "8px", borderRadius: 12, fontSize: 11, fontWeight: "bold", letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", marginBottom: 8, background: "rgba(255,255,255,0.05)", border: `1px solid ${(selectedSatellite || selectedPlanet).color}33`, color: "rgba(255,255,255,0.6)" }}>✏️ Open Notes</button>
+                <button onClick={() => setShowFlashcards(true)} style={{ width: "100%", padding: "8px", borderRadius: 12, fontSize: 11, fontWeight: "bold", letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", marginBottom: 8, background: "rgba(255,255,255,0.05)", border: `1px solid ${(selectedSatellite || selectedPlanet).color}33`, color: "rgba(255,255,255,0.6)" }}>🃏 Flashcards</button>
                 <button onClick={() => { setShowPomodoro(true); addXp(50); }} style={{ width: "100%", padding: "8px", borderRadius: 12, fontSize: 11, fontWeight: "bold", letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", background: `linear-gradient(135deg, ${(selectedSatellite || selectedPlanet).color}33, ${selectedPlanet.glow}22)`, border: `1px solid ${(selectedSatellite || selectedPlanet).color}55`, color: (selectedSatellite || selectedPlanet).color }}>⚡ Start Session</button>
               </>
             )}
@@ -831,6 +835,7 @@ export default function App() {
       )}
 
       {showNotes && selectedPlanet && <Notes user={user} planet={selectedPlanet} satellite={selectedSatellite} onClose={() => setShowNotes(false)} />}
+      {showFlashcards && selectedPlanet && <Flashcards user={user} planet={selectedPlanet} satellite={selectedSatellite} onClose={() => setShowFlashcards(false)} />}
       {showLeaderboard && <Leaderboard user={user} onClose={() => setShowLeaderboard(false)} />}
       {showStats && <Stats user={user} onClose={() => setShowStats(false)} />}
       {showFriends && <Friends user={user} onClose={() => setShowFriends(false)} />}
